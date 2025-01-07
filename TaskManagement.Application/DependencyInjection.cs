@@ -1,11 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using TaskManagement.Application.Configuration;
 
 namespace TaskManagement.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static void AddApplication(this IServiceCollection services, IApplicationConfiguration applicationConfiguration,
+        Action<IApplicationConfiguration> configure)
     {
-        return services;
+        configure(applicationConfiguration);
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
     }
 }

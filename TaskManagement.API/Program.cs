@@ -1,4 +1,7 @@
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application;
+using TaskManagement.Application.Configuration;
 using TaskManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +13,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services
-    .AddInfrastructure(builder.Configuration)
-    .AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
+
+var applicationConfiguration = new ApplicationConfiguration();
+builder.Services.AddApplication(applicationConfiguration, cfg =>
+{
+    cfg.AddAutomapperAssembly(typeof(TaskManagement.Application.Mapping.TaskProfile).Assembly);
+});
+
+builder.Services.AddAutoMapper(x =>
+{ 
+    x.AddGlobalIgnore("IsDeleted");
+}, applicationConfiguration.AutomapperAssemblies);
+
 
 var app = builder.Build();
 

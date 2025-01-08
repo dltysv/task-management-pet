@@ -19,7 +19,7 @@ public class GetListQueryHandler : IRequestHandler<GetListQuery, List<TaskDto>>
     public async Task<List<TaskDto>> Handle(GetListQuery request, CancellationToken cancellationToken)
     {
         var tasks = await _taskRepository.GetAllTasks();
-        var taskDtos = _mapper.Map<List<TaskDto>>(tasks);
-        return taskDtos;
+        var taskDtoList = _mapper.Map<List<TaskDto>>(tasks);
+        return taskDtoList;
     }
 }

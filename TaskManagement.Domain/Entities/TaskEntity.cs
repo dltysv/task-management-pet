@@ -1,10 +1,10 @@
-﻿using TaskManagement.Domain.Enums;
+﻿using TaskManagement.Domain.Abstractions;
+using TaskManagement.Domain.Enums;
 
 namespace TaskManagement.Domain.Entities;
 
-public class TaskEntity
+public class TaskEntity : BaseEntity
 {
-    public Guid Id { get; set; }
     public required string Title { get; set; }
     public required string Description { get; set; }
     public TaskEntityStatus Status { get; set; }
